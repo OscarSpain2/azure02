@@ -1,0 +1,29 @@
+name: Build and Push Docker Image to ACR
+
+on:
+  push:
+    branches:
+      - main  # o la rama que estés usando
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Log in to Azure CLI
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Docker login to ACR
+      uses: azure/docker-login@v1
+      with:
+        login-server: acrnuevoprueba4185.azurecr.io
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t acrnuevoprueba4185.azurecr.io/ipcheck:latest .
+        docker push acrnuevoprueba4185.azurecr.io/ipcheck:latest
