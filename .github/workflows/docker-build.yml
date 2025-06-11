@@ -1,0 +1,27 @@
+name: Build and Push Docker Image to Azure Container Registry
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Build and push Docker image
+      uses: azure/docker-login@v1
+      with:
+        login-server: conregistry30269899.azurecr.io
+
+    - run: |
+        docker build -t conregistry30269899.azurecr.io/ipcheck:latest .
+        docker push conregistry30269899.azurecr.io/ipcheck:latest
