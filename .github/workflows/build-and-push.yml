@@ -26,4 +26,4 @@ jobs:
     - name: Build and push Docker image
       run: |
         docker build -t acrnuevoprueba4185.azurecr.io/ipcheck:latest .
-        docker push acrnuevoprueba4185.azurecr.io/ipcheck:latest
+        
